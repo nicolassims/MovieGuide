@@ -45,13 +45,11 @@ function setNumberRating() {
 }
 
 function setTotalRatings() {
-    if (totalRatings == null) {
-        totalRatings = Number(rating);
+    if (totalRatings != null) {
+        totalRatings += Number(rating);
     } else {
-        totalRatings += Number(rating)
+        totalRatings = Number(rating)
     }
-    console.log("numberratings=" + numberRatings);
-    console.log("totalRatings=" + totalRatings);
 }
 
 function setContinueInt() {
