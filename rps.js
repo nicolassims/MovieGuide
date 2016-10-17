@@ -1,7 +1,7 @@
 /**
  * @author Sims, Nicolas (sableye.nico@gmail.com)
  * @version 0.0.1
- * @summary Design a program for the Hollywood Movie Rating Guide || created: 10.11.2016
+ * @summary Design an rps program || created: 10.17.2016
  * @todo
  */
 
