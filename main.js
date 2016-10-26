@@ -8,13 +8,14 @@
 "use strict";
 const PROMPT = require('readline-sync');
 
-let rating, numberRatings, totalRatings, continueInt;
+let movieName, rating, continueInt;
+let movieArray = [];
 
 function main() {
     while (continueInt == 1 || continueInt == null) {
+        setMovieName();
         setRating();
-        setNumberRating();
-        setTotalRatings();
+        populateMovieArray();
         setContinueInt();
     }
     if (continueInt == 0) {
@@ -24,32 +25,36 @@ function main() {
 
 main();
 
+function setMovieName() {
+    movieName = PROMPT.question('What movie do you want to rate today?\n>');
+}
+
 function setRating() {
-    rating = PROMPT.question('Out of five stars, what would you rate "Spaceballs 2: The Search for More Money?"\n>');
+    rating = PROMPT.question('Out of five stars, what would you rate "' + movieName + '?"\n>');
     for (let i = 0; i < 3 && rating != 1 && rating != 2 && rating != 3 && rating != 4 && rating != 5; i++) {
         rating = PROMPT.question('No, you idiot, out of FIVE stars. One to five. Try again, twit.\n>');
         if (i == 2) {
             console.log("You're hopeless.")
         }
     }
-    console.log("rating=" + rating);
 }
 
-function setNumberRating() {
-    if (numberRatings == null) {
-        numberRatings = 1;
-    } else {
-        numberRatings += 1;
+function populateMovieArray() {
+    console.log('movieArray =' + movieArray.length);
+    for (let i = 0; i <= movieArray.length; i++) {
+        if (movieArray[i] == null) {
+            movieArray[i] = [];
+            movieArray[i][0] = movieName;
+            movieArray[i][1] = rating;
+            movieArray[i][2] = 1;
+        } else if (movieName == movieArray[i][0]) {
+            movieArray[i][1] += rating;
+            movieArray[i][2] += 1;
+        }
     }
-    console.log("numberratings=" + numberRatings);
-}
-
-function setTotalRatings() {
-    if (totalRatings != null) {
-        totalRatings += Number(rating);
-    } else {
-        totalRatings = Number(rating)
-    }
+    console.log('\n' +
+    'Movie name =' + movieName +
+    '\nmovie rating =' + rating);
 }
 
 function setContinueInt() {
@@ -63,6 +68,17 @@ function setContinueInt() {
 }
 
 function printAverageRating() {
-    let averageRating = totalRatings / numberRatings;
-    console.log("The average rating of this move is... " + averageRating + " stars out of five." )
+    for (let i = 0; i < movieArray.length + 1; i++) {
+        if (movieName == movieArray[i][0]) {
+            let averageRating = movieArray[i][1] / movieArray[i][2];
+            console.log('The average rating of ' + movieName + ' is ' + averageRating + ' stars out of five.');
+        }
+    }
 }
+
+/*
+console.log('\n' +
+'Movie name =' + movieName +
+'\nmovie rating =' + rating +
+'\nMovie namearray =' + movieArray[i][0] +
+'\nmovie rating total =' +  movieArray[i][1]);*/
