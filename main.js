@@ -8,12 +8,14 @@
 "use strict";
 const PROMPT = require('readline-sync');
 
-let movieName, rating, continueInt;
+let movieName, rating, movieNumber, continueInt;
 let movieArray = [];
+const MOVIENAMECOLUMN = 0, MOVIETOTALRATINGCOLUMN = 1, MOVIENUMBERRATINGS = 2;
 
 function main() {
+    setMovieName();
     while (continueInt == 1 || continueInt == null) {
-        setMovieName();
+        setMovieNumber();
         setRating();
         populateMovieArray();
         setContinueInt();
@@ -29,6 +31,25 @@ function setMovieName() {
     movieName = PROMPT.question('What movie do you want to rate today?\n>');
 }
 
+function setMovieNumber() {
+    if (movieNumber == null) {
+        movieNumber = 0;
+    } else {
+        for (let i = 0; i < movieArray.length; i++) {
+            console.log('<' + i + '> = ' + movieArray[i][MOVIENAMECOLUMN]);
+        }
+        movieNumber = PROMPT.question('<' + movieArray.length + '> = A New Movie\n' +
+            'Which movie would you like to rate now?\n>');
+        if (movieNumber == movieArray.length) {
+            return setMovieName();
+        }
+    }
+    if (movieNumber < 0 || movieNumber > movieArray.length) {
+        console.log('Please check your input.');
+        return setMovieNumber();
+    }
+}
+
 function setRating() {
     rating = PROMPT.question('Out of five stars, what would you rate "' + movieName + '?"\n>');
     for (let i = 0; i < 3 && rating != 1 && rating != 2 && rating != 3 && rating != 4 && rating != 5; i++) {
@@ -40,21 +61,15 @@ function setRating() {
 }
 
 function populateMovieArray() {
-    console.log('movieArray =' + movieArray.length);
-    for (let i = 0; i <= movieArray.length; i++) {
-        if (movieArray[i] == null) {
-            movieArray[i] = [];
-            movieArray[i][0] = movieName;
-            movieArray[i][1] = rating;
-            movieArray[i][2] = 1;
-        } else if (movieName == movieArray[i][0]) {
-            movieArray[i][1] += rating;
-            movieArray[i][2] += 1;
-        }
+    if (movieArray[movieNumber] == null) {
+        movieArray[movieNumber] = [];
+        movieArray[movieNumber][MOVIENAMECOLUMN] = movieName;
+        movieArray[movieNumber][MOVIETOTALRATINGCOLUMN] = rating;
+        movieArray[movieNumber][MOVIENUMBERRATINGS] = 1;
+    } else {
+        movieArray[movieNumber][MOVIETOTALRATINGCOLUMN] = movieArray[movieNumber][MOVIETOTALRATINGCOLUMN] - -rating;
+        movieArray[movieNumber][MOVIENUMBERRATINGS] += 1;
     }
-    console.log('\n' +
-    'Movie name =' + movieName +
-    '\nmovie rating =' + rating);
 }
 
 function setContinueInt() {
@@ -68,17 +83,8 @@ function setContinueInt() {
 }
 
 function printAverageRating() {
-    for (let i = 0; i < movieArray.length + 1; i++) {
-        if (movieName == movieArray[i][0]) {
-            let averageRating = movieArray[i][1] / movieArray[i][2];
-            console.log('The average rating of ' + movieName + ' is ' + averageRating + ' stars out of five.');
-        }
+    for (let i = 0; i < movieArray.length; i++) {
+        console.log(movieArray[i][MOVIENAMECOLUMN] + ' has an average rating of ' +
+            movieArray[i][MOVIETOTALRATINGCOLUMN] / movieArray[i][MOVIENUMBERRATINGS] + ' stars out of five.');
     }
 }
-
-/*
-console.log('\n' +
-'Movie name =' + movieName +
-'\nmovie rating =' + rating +
-'\nMovie namearray =' + movieArray[i][0] +
-'\nmovie rating total =' +  movieArray[i][1]);*/
