@@ -27,11 +27,11 @@ function main() {
 
 main();
 
-function setMovieName(movieNumber) {
-    if (movieNumber == null) {
+function setMovieName(number) {
+    if (number == null) {
         movieName = PROMPT.question('What movie do you want to rate today?\n>');
     } else {
-        movieName = movieArray[movieNumber][MOVIENAMECOLUMN]
+        movieName = movieArray[number][MOVIENAMECOLUMN]
     }
 
 }
