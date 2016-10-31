@@ -27,8 +27,13 @@ function main() {
 
 main();
 
-function setMovieName() {
-    movieName = PROMPT.question('What movie do you want to rate today?\n>');
+function setMovieName(movieNumber) {
+    if (movieNumber == null) {
+        movieName = PROMPT.question('What movie do you want to rate today?\n>');
+    } else {
+        movieName = movieArray[movieNumber][MOVIENAMECOLUMN]
+    }
+
 }
 
 function setMovieNumber() {
@@ -42,6 +47,8 @@ function setMovieNumber() {
             'Which movie would you like to rate now?\n>');
         if (movieNumber == movieArray.length) {
             return setMovieName();
+        } else {
+            return setMovieName(movieNumber);
         }
     }
     if (movieNumber < 0 || movieNumber > movieArray.length) {
@@ -53,7 +60,7 @@ function setMovieNumber() {
 function setRating() {
     rating = PROMPT.question('Out of five stars, what would you rate "' + movieName + '?"\n>');
     for (let i = 0; i < 3 && rating != 1 && rating != 2 && rating != 3 && rating != 4 && rating != 5; i++) {
-        rating = PROMPT.question('No, you idiot, out of FIVE stars. One to five. Try again, twit.\n>');
+        rating = PROMPT.question('Out of five stars, what would you rate "' + movieName + '?"\n>');
         if (i == 2) {
             console.log("You're hopeless.")
         }
