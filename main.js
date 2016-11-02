@@ -45,15 +45,14 @@ function setMovieNumber() {
         }
         movieNumber = PROMPT.question('<' + movieArray.length + '> = A New Movie\n' +
             'Which movie would you like to rate now?\n>');
-        if (movieNumber == movieArray.length) {
+        if (movieNumber < 0 || movieNumber > movieArray.length || isNaN(movieNumber) == true) {
+            console.log('Please check your input.');
+            return setMovieNumber();
+        } else if (movieNumber == movieArray.length) {
             return setMovieName();
         } else {
             return setMovieName(movieNumber);
         }
-    }
-    if (movieNumber < 0 || movieNumber > movieArray.length) {
-        console.log('Please check your input.');
-        return setMovieNumber();
     }
 }
 
